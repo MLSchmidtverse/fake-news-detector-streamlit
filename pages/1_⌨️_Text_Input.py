@@ -7,6 +7,44 @@ from transformers import AutoTokenizer, AutoModel
 import joblib
 import nltk
 
+@st.cache_resource
+def download_nltk_resources():
+# Make sure that NLTK resources are downloaded
+    try:
+        stopwords.words('english')
+    except LookupError:
+        nltk.download('stopwords')
+    try:
+        WordNetLemmatizer().lemmatize('test')
+    except LookupError:
+        nltk.download('wordnet')
+    try:
+        nltk.word_tokenize("example")
+    except LookupError:
+        nltk.download('punkt')
+    try:
+        from nltk.tokenize.punkt import PunktSentenceTokenizer
+    except LookupError:
+        nltk.download('punkt')
+    try:
+        from nltk.tag import PerceptronTagger
+    except LookupError:
+        nltk.download('averaged_perceptron_tagger')
+    try:
+        nltk.data.find('taggers/averaged_perceptron_tagger/averaged_perceptron_tagger.zip')
+    except LookupError:
+        nltk.download('averaged_perceptron_tagger')
+    try:
+        nltk.data.find('tokenizers/punkt/PY3/english.pickle')
+    except LookupError:
+        nltk.download('punkt')
+    try:
+        nltk.data.find('tokenizers/punkt_tab.zip')
+    except LookupError:
+        nltk.download('punkt_tab')
+
+download_nltk_resources()
+
 # (2) Loading the pre-trained DistilBERT model and tokenizer
 @st.cache_resource
 def load_model_and_tokenizer():

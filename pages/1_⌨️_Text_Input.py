@@ -6,10 +6,14 @@ import torch
 from transformers import AutoTokenizer, AutoModel
 import joblib
 import nltk
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+from nltk.tokenize import word_tokenize, sent_tokenize
+from nltk.tag import PerceptronTagger
 
 @st.cache_resource
 def download_nltk_resources():
-# Make sure that NLTK resources are downloaded
+    # Make sure that NLTK resources are downloaded
     try:
         stopwords.words('english')
     except LookupError:
@@ -19,29 +23,17 @@ def download_nltk_resources():
     except LookupError:
         nltk.download('wordnet')
     try:
-        nltk.word_tokenize("example")
+        word_tokenize("example")
     except LookupError:
         nltk.download('punkt')
     try:
-        from nltk.tokenize.punkt import PunktSentenceTokenizer
+        sent_tokenize("example")
     except LookupError:
         nltk.download('punkt')
     try:
-        from nltk.tag import PerceptronTagger
+        PerceptronTagger().tag(['example'])
     except LookupError:
         nltk.download('averaged_perceptron_tagger')
-    try:
-        nltk.data.find('taggers/averaged_perceptron_tagger/averaged_perceptron_tagger.zip')
-    except LookupError:
-        nltk.download('averaged_perceptron_tagger')
-    try:
-        nltk.data.find('tokenizers/punkt/PY3/english.pickle')
-    except LookupError:
-        nltk.download('punkt')
-    try:
-        nltk.data.find('tokenizers/punkt_tab.zip')
-    except LookupError:
-        nltk.download('punkt_tab')
 
 download_nltk_resources()
 
@@ -70,8 +62,8 @@ def load_lr_model(model_path="fake_news_lr_model.joblib"):
 fake_news_lr_model = load_lr_model()
 
 # (4) Text processing functions
-stop_words = set(nltk.corpus.stopwords.words('english'))
-lemmatizer = nltk.stem.WordNetLemmatizer()
+stop_words = set(stopwords.words('english'))
+lemmatizer = WordNetLemmatizer()
 
 def clean_text(text):
     text = text.lower()

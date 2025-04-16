@@ -13,9 +13,8 @@ from nltk.tag import PerceptronTagger
 
 @st.cache_resource
 def download_nltk_resources():
-    # Make sure that NLTK resources are downloaded
     try:
-        stopwords.words('english')
+        nltk.data.find('corpora/stopwords')
     except LookupError:
         nltk.download('stopwords')
     try:
@@ -23,15 +22,11 @@ def download_nltk_resources():
     except LookupError:
         nltk.download('wordnet')
     try:
-        word_tokenize("example")
+        nltk.data.find('tokenizers/punkt/PY3/english.pickle')
     except LookupError:
         nltk.download('punkt')
     try:
-        sent_tokenize("example")
-    except LookupError:
-        nltk.download('punkt')
-    try:
-        PerceptronTagger().tag(['example'])
+        nltk.data.find('taggers/averaged_perceptron_tagger/averaged_perceptron_tagger.zip')
     except LookupError:
         nltk.download('averaged_perceptron_tagger')
 

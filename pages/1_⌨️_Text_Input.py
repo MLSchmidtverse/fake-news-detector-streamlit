@@ -6,25 +6,32 @@ import torch
 from transformers import AutoTokenizer, AutoModel
 import joblib
 import nltk
+import os
+
+NLTK_DATA_PATH = os.path.join(os.getcwd(), "nltk_data")
+if not os.path.exists(NLTK_DATA_PATH):
+    os.makedirs(NLTK_DATA_PATH)
+
+nltk.data.path.append(NLTK_DATA_PATH)
 
 @st.cache_resource
 def download_nltk_resources():
     try:
         nltk.data.find('corpora/stopwords')
     except LookupError:
-        nltk.download('stopwords')
+        nltk.download('stopwords', download_dir=NLTK_DATA_PATH)
     try:
         WordNetLemmatizer().lemmatize('test')
     except LookupError:
-        nltk.download('wordnet')
+        nltk.download('wordnet', download_dir=NLTK_DATA_PATH)
     try:
         nltk.data.find('tokenizers/punkt/PY3/english.pickle')
     except LookupError:
-        nltk.download('punkt')
+        nltk.download('punkt', download_dir=NLTK_DATA_PATH)
     try:
         nltk.data.find('taggers/averaged_perceptron_tagger/averaged_perceptron_tagger.zip')
     except LookupError:
-        nltk.download('averaged_perceptron_tagger')
+        nltk.download('averaged_perceptron_tagger', download_dir=NLTK_DATA_PATH)
 
 download_nltk_resources()
 

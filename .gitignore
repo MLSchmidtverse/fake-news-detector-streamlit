@@ -1,0 +1,21 @@
+# Byte compiled Python files
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# Local Settings & temporal
+.vscode/        # VS Code specific Settings
+*.log           # Log files
+*.swp           # Swap files
+*.bak           # Backup files
+
+# Streamlit specific
+.streamlit/cache/
+
+# Model
+# fake_news_lr_model.joblib

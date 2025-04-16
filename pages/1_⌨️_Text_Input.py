@@ -6,31 +6,17 @@ import torch
 from transformers import AutoTokenizer, AutoModel
 import joblib
 import nltk
-from nltk.corpus import stopwords
-from nltk.stem import WordNetLemmatizer
-from nltk.tokenize import word_tokenize, sent_tokenize
-from nltk.tag import PerceptronTagger
 
 @st.cache_resource
 def download_nltk_resources():
-    try:
-        nltk.data.find('corpora/stopwords')
-    except LookupError:
-        nltk.download('stopwords')
-    try:
-        WordNetLemmatizer().lemmatize('test')
-    except LookupError:
-        nltk.download('wordnet')
-    try:
-        nltk.data.find('tokenizers/punkt/PY3/english.pickle')
-    except LookupError:
-        nltk.download('punkt')
-    try:
-        nltk.data.find('taggers/averaged_perceptron_tagger/averaged_perceptron_tagger.zip')
-    except LookupError:
-        nltk.download('averaged_perceptron_tagger')
+    nltk.download('popular')
 
 download_nltk_resources()
+
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+from nltk.tokenize import word_tokenize
+from nltk.tag import PerceptronTagger
 
 # (2) Loading the pre-trained DistilBERT model and tokenizer
 @st.cache_resource

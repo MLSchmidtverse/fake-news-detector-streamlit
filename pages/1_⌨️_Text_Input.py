@@ -9,11 +9,25 @@ import nltk
 
 @st.cache_resource
 def download_nltk_resources():
-    nltk.download('popular')
+    try:
+        nltk.data.find('corpora/stopwords')
+    except LookupError:
+        nltk.download('stopwords')
+    try:
+        WordNetLemmatizer().lemmatize('test')
+    except LookupError:
+        nltk.download('wordnet')
+    try:
+        nltk.data.find('tokenizers/punkt/PY3/english.pickle')
+    except LookupError:
+        nltk.download('punkt')
+    try:
+        nltk.data.find('taggers/averaged_perceptron_tagger/averaged_perceptron_tagger.zip')
+    except LookupError:
+        nltk.download('averaged_perceptron_tagger')
 
 download_nltk_resources()
 
-from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
 from nltk.tag import PerceptronTagger
@@ -43,6 +57,7 @@ def load_lr_model(model_path="fake_news_lr_model.joblib"):
 fake_news_lr_model = load_lr_model()
 
 # (4) Text processing functions
+from nltk.corpus import stopwords
 stop_words = set(stopwords.words('english'))
 lemmatizer = WordNetLemmatizer()
 
